@@ -13,26 +13,31 @@ import {onSigningUp} from '../../redux/reducers/signupReducer';
 import showToast from '../../components/Toast';
 
 export interface FormValuesType {
-  username: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   confirmPassword: string;
-  phone: string;
 }
 const RegistrationScreen = ({navigation}: any) => {
   //  const users = useSelector((state: any) => state.users.value);
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<FormValuesType>({
-    username: '',
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    phone: '',
   });
   const [fieldWarnings, setFieldWarnings] = useState<Partial<FormValuesType>>(
     {},
   );
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleInputChange = (inputName: keyof FormValuesType, text: string) => {
     setFormValues({
@@ -44,6 +49,21 @@ const RegistrationScreen = ({navigation}: any) => {
       ...fieldWarnings,
       [inputName]: '',
     });
+  };
+
+  const handleEmailBlur = () => {
+    // Validate email on blur
+    if (formValues.email && !validateEmail(formValues.email)) {
+      setFieldWarnings({
+        ...fieldWarnings,
+        email: 'Email is invalid',
+      });
+    } else {
+      setFieldWarnings({
+        ...fieldWarnings,
+        email: '',
+      });
+    }
   };
 
   const handleSignIn = () => {
@@ -79,37 +99,36 @@ const RegistrationScreen = ({navigation}: any) => {
         <View style={loginStyles.wrap}>
           <TextInput
             style={loginStyles.input}
+            placeholder="First Name"
+            placeholderTextColor="grey"
+            onChangeText={text => handleInputChange('first_name', text)}
+            value={formValues.first_name}
+          />
+          {fieldWarnings.first_name && (
+            <Text style={loginStyles.warning}>{fieldWarnings.first_name}</Text>
+          )}
+          <TextInput
+            style={loginStyles.input}
+            placeholder="Last Name"
+            placeholderTextColor="grey"
+            onChangeText={text => handleInputChange('last_name', text)}
+            value={formValues.last_name}
+          />
+          {fieldWarnings.last_name && (
+            <Text style={loginStyles.warning}>{fieldWarnings.last_name}</Text>
+          )}
+          <TextInput
+            style={loginStyles.input}
             placeholder="Email"
             placeholderTextColor="grey"
             onChangeText={text => handleInputChange('email', text)}
             value={formValues.email}
             keyboardType="email-address"
             autoCapitalize="none"
+            onBlur={handleEmailBlur}
           />
           {fieldWarnings.email && (
             <Text style={loginStyles.warning}>{fieldWarnings.email}</Text>
-          )}
-          <TextInput
-            style={loginStyles.input}
-            placeholder="Username"
-            placeholderTextColor="grey"
-            onChangeText={text => handleInputChange('username', text)}
-            value={formValues.username}
-            autoCapitalize="none"
-          />
-          {fieldWarnings.username && (
-            <Text style={loginStyles.warning}>{fieldWarnings.username}</Text>
-          )}
-          <TextInput
-            style={loginStyles.input}
-            placeholder="Phone"
-            placeholderTextColor="grey"
-            onChangeText={text => handleInputChange('phone', text)}
-            value={formValues.phone}
-            keyboardType="numeric"
-          />
-          {fieldWarnings.phone && (
-            <Text style={loginStyles.warning}>{fieldWarnings.phone}</Text>
           )}
           <TextInput
             style={loginStyles.input}

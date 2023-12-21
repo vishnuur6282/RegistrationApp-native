@@ -4,6 +4,7 @@ import {StyleSheet} from 'react-native';
 export const homeStyle = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     width: '100%',
   },
   heading: {
@@ -11,14 +12,13 @@ export const homeStyle = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
     paddingTop: 16,
-    textAlign: 'left',
   },
   drawerbutton: {
     backgroundColor: 'red',
     height: 60,
   },
   imageWrap: {
-    height: '20%',
+    height: '40%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -44,26 +44,17 @@ export const homeStyle = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
   },
-
   section: {
-    alignItems: 'center',
     padding: 24,
     borderBottomColor: 'grey',
     borderBottomWidth: 1,
-    display: 'flex',
-    flexDirection: 'row',
   },
-  profileImage: {
-    width: 30,
-    height: 30,
-    borderRadius: 94,
-    objectFit: 'cover',
+  label: {
+    fontWeight: '600',
+    color: 'grey',
   },
   data: {
     fontWeight: '500',
     color: 'grey',
-    fontSize: 18,
-    textTransform: 'capitalize',
-    paddingLeft: 12,
   },
 });

@@ -15,14 +15,14 @@ import {setCurrentUser} from '../../redux/reducers/signupReducer';
 
 const LoginScreen = ({navigation}: any) => {
   const {users} = useSelector((state: any) => state.users);
-  const [username, setUsername] = useState('');
+  const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
   const handleSignIn = () => {
     const validUser = users.find(
       (user: FormValuesType) =>
-        user.username === username && user.password === password,
+        user.email === email && user.password === password,
     );
 
     if (validUser) {
@@ -30,7 +30,7 @@ const LoginScreen = ({navigation}: any) => {
       dispatch(setCurrentUser(validUser));
       navigation.navigate('Home', {name: 'Jane'});
     } else {
-      showToast('Login Failed');
+      showToast('Invalid credentials');
     }
   };
 
@@ -48,10 +48,10 @@ const LoginScreen = ({navigation}: any) => {
 
           <TextInput
             style={loginStyles.input}
-            placeholder="Username"
+            placeholder="Email"
             placeholderTextColor="grey"
-            onChangeText={text => setUsername(text)}
-            value={username}
+            onChangeText={text => setemail(text)}
+            value={email}
             autoCapitalize="none"
           />
 
