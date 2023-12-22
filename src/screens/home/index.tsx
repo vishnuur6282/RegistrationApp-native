@@ -6,6 +6,7 @@ import {FormValuesType} from '../registration';
 
 const HomeScreen = ({navigation}: any) => {
   const {currentUser, users} = useSelector((state: any) => state.users);
+
   const imagePaths = [
     require('../../assets/Images/portrait.jpg'),
     require('../../assets/Images/portrait2.jpg'),
@@ -16,6 +17,11 @@ const HomeScreen = ({navigation}: any) => {
   const onPressUser = (data: any) => {
     navigation.navigate('UserDetails', data);
   };
+  // Combine user data with images
+  const combinedData = users.map((user: FormValuesType, index: number) => ({
+    ...user,
+    imageUrl: imagePaths[index % imagePaths.length],
+  }));
 
   return (
     <View style={homeStyle.container}>
@@ -28,13 +34,10 @@ const HomeScreen = ({navigation}: any) => {
       </View>
       <View style={homeStyle.detailWrap}>
         <Text>Registered Users</Text>
-        {users?.map((res: FormValuesType, index: number) => (
+        {combinedData?.map((res: FormValuesType | any) => (
           <Pressable onPress={() => onPressUser(res)} key={res.first_name}>
             <View style={homeStyle.section}>
-              <Image
-                style={homeStyle.profileImage}
-                source={imagePaths[index]}
-              />
+              <Image style={homeStyle.profileImage} source={res?.imageUrl} />
               <Text style={homeStyle.data}>{res?.first_name}</Text>
             </View>
           </Pressable>

@@ -5,7 +5,6 @@ import {useSelector} from 'react-redux';
 
 const UserDetails = ({route}: any) => {
   console.log(route.params, 'paramsvalue');
-  const {currentUser} = useSelector((state: any) => state.users);
   const imagePaths = [
     require('../../assets/Images/portrait.jpg'),
     require('../../assets/Images/portrait2.jpg'),
@@ -26,19 +25,19 @@ const UserDetails = ({route}: any) => {
           source={require('../../assets/Images/background.jpg')}
           style={homeStyle.backgroundImage}>
           <Image style={homeStyle.image} source={imagePaths[randomIndex]} />
-          <Text style={homeStyle.heading}>{currentUser.first_name}</Text>
+          <Text style={homeStyle.heading}>{route.params.first_name}</Text>
         </ImageBackground>
       </View>
       <View style={homeStyle.detailWrap}>
         <View style={homeStyle.section}>
           <Text style={homeStyle.label}>Name:</Text>
           <Text style={homeStyle.data}>
-            {currentUser?.first_name} {currentUser?.last_name}
+            {route.params?.first_name} {route.params?.last_name}
           </Text>
         </View>
         <View style={homeStyle.section}>
           <Text style={homeStyle.label}>Email:</Text>
-          <Text style={homeStyle.data}>{currentUser?.email}</Text>
+          <Text style={homeStyle.data}>{route.params?.email}</Text>
         </View>
       </View>
     </View>
