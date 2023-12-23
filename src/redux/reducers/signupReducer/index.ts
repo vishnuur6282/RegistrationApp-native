@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {FormValuesType} from '../../../screens/registration';
+import imagePaths from '../../../constants/images';
 
 interface stateType {
   users: FormValuesType[];
@@ -13,7 +14,13 @@ export const counterSlice = createSlice({
   },
   reducers: {
     onSigningUp: (state, action) => {
-      state.users = [...state.users, action.payload];
+      const randomIndex = Math.floor(Math.random() * imagePaths.length);
+      const newUser = {
+        ...action.payload,
+        imageUrl: imagePaths[randomIndex],
+        registered_date: new Date().toISOString(),
+      };
+      state.users = [...state.users, newUser];
     },
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload;

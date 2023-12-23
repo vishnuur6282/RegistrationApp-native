@@ -5,7 +5,7 @@ export const homeStyle = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: '#121B22',
   },
   heading: {
     fontSize: 24,
@@ -13,12 +13,6 @@ export const homeStyle = StyleSheet.create({
     fontWeight: '600',
     paddingTop: 16,
     textAlign: 'left',
-  },
-  pagelistheading: {
-    color: 'black',
-    fontSize: 16,
-    padding: 24,
-    fontWeight: '600',
   },
   drawerbutton: {
     backgroundColor: 'red',
@@ -52,22 +46,40 @@ export const homeStyle = StyleSheet.create({
   },
 
   section: {
-    alignItems: 'center',
-    padding: 24,
+    alignItems: 'flex-start',
+    padding: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  leftpart: {
     display: 'flex',
     flexDirection: 'row',
   },
   profileImage: {
-    width: 30,
-    height: 30,
+    width: 48,
+    height: 48,
     borderRadius: 94,
     objectFit: 'cover',
   },
-  data: {
-    fontWeight: '500',
-    color: 'grey',
-    fontSize: 18,
-    textTransform: 'capitalize',
+  datawrap: {
     paddingLeft: 12,
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
+  name: {
+    fontWeight: '500',
+    color: 'white',
+    fontSize: 16,
+    textTransform: 'capitalize',
+  },
+  email: {
+    color: 'grey',
+    fontSize: 14,
+  },
+  registertime: {
+    color: 'grey',
+    fontSize: 12,
+    paddingTop: 4,
   },
 });

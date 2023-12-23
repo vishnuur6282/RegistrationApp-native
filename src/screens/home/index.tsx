@@ -1,40 +1,61 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   FlatList,
   Image,
   ImageBackground,
   Pressable,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import {homeStyle} from './style';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
+
+import {homeStyle} from './style';
+
 import {FormValuesType} from '../registration';
+import ModalComponent from '../../components/Modal';
 
 const HomeScreen = ({navigation}: any) => {
   const {currentUser, users} = useSelector((state: any) => state.users);
-
-  const imagePaths = [
-    require('../../assets/Images/portrait.jpg'),
-    require('../../assets/Images/portrait2.jpg'),
-    require('../../assets/Images/portrait3.jpg'),
-    require('../../assets/Images/portrait4.jpg'),
-  ];
+  const [visible, setVisible] = useState(false);
+  const [selectedImage, setselectedImage] = useState('');
 
   const onPressUser = (data: any) => {
     navigation.navigate('UserDetails', data);
   };
-  // Combine user data with images
-  const combinedData = users.map((user: FormValuesType, index: number) => ({
-    ...user,
-    imageUrl: imagePaths[index % imagePaths.length],
-  }));
+
+  const onPressImage = (data: any) => {
+    setselectedImage(data.imageUrl);
+    setVisible(true);
+  };
+
+  const handleModalOutsidePress = () => {
+    setVisible(false);
+  };
 
   const renderItem = ({item}: FormValuesType | any) => (
     <Pressable onPress={() => onPressUser(item)} key={item.first_name}>
       <View style={homeStyle.section}>
-        <Image style={homeStyle.profileImage} source={item?.imageUrl} />
-        <Text style={homeStyle.data}>{item?.first_name}</Text>
+        <View style={homeStyle.leftpart}>
+          <TouchableOpacity onPress={() => onPressImage(item)}>
+            <Image
+              style={homeStyle.profileImage}
+              source={{uri: item?.imageUrl}}
+            />
+          </TouchableOpacity>
+          <View style={homeStyle.datawrap}>
+            <Text style={homeStyle.name}>
+              {item?.first_name === currentUser?.first_name
+                ? item.first_name + ' (You)'
+                : item.first_name}
+            </Text>
+            <Text style={homeStyle.email}>{item?.email}</Text>
+          </View>
+        </View>
+        <Text style={homeStyle.registertime}>
+          {moment(item?.registered_date).fromNow()}
+        </Text>
       </View>
     </Pressable>
   );
@@ -49,13 +70,18 @@ const HomeScreen = ({navigation}: any) => {
         </ImageBackground>
       </View>
       <View style={homeStyle.detailWrap}>
-        <Text style={homeStyle.pagelistheading}>Registered Users</Text>
         <FlatList
-          data={combinedData}
+          data={users}
           renderItem={renderItem}
           keyExtractor={item => item.first_name}
         />
       </View>
+      <ModalComponent
+        visible={visible}
+        setVisible={setVisible}
+        image={selectedImage}
+        handleModalOutsidePress={handleModalOutsidePress}
+      />
     </View>
   );
 };

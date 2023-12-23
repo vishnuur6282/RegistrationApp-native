@@ -1,44 +1,54 @@
-import React, {useEffect, useState} from 'react';
-import {Image, ImageBackground, Text, View} from 'react-native';
-import {homeStyle} from './style';
+import React, {useEffect} from 'react';
+import {ImageBackground, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
-const UserDetails = ({route}: any) => {
-  const imagePaths = [
-    require('../../assets/Images/portrait.jpg'),
-    require('../../assets/Images/portrait2.jpg'),
-    require('../../assets/Images/portrait3.jpg'),
-    require('../../assets/Images/portrait4.jpg'),
-  ];
-  const [randomIndex, setRandomIndex] = useState(0);
+import {homeStyle} from './style';
+
+interface UserData {
+  text: string;
+  imagePath: string;
+}
+
+const UserDetails = ({route, navigation}: any) => {
+  const {currentUser} = useSelector((state: any) => state.users);
+  const data = route.params;
 
   useEffect(() => {
-    const newIndex = Math.floor(Math.random() * imagePaths.length);
-    setRandomIndex(newIndex);
-  }, [imagePaths]);
+    const userDetail: UserData = {
+      text:
+        currentUser?.first_name === data.first_name
+          ? currentUser?.first_name + ' (You)'
+          : data?.first_name,
+      imagePath: data.imageUrl,
+    };
+    navigation.setParams({userDetail});
+  }, [navigation]);
 
   return (
     <View style={homeStyle.container}>
-      <View style={homeStyle.imageWrap}>
-        <ImageBackground
-          source={require('../../assets/Images/background.jpg')}
-          style={homeStyle.backgroundImage}>
-          <Image style={homeStyle.image} source={imagePaths[randomIndex]} />
-          <Text style={homeStyle.heading}>{route.params.first_name}</Text>
-        </ImageBackground>
-      </View>
-      <View style={homeStyle.detailWrap}>
-        <View style={homeStyle.section}>
-          <Text style={homeStyle.label}>Name:</Text>
-          <Text style={homeStyle.data}>
-            {route.params?.first_name} {route.params?.last_name}
+      <ImageBackground
+        style={homeStyle.contentBg}
+        source={require('../../assets/Images/whatsappbg.jpg')}>
+        <View style={homeStyle.userImageWrap}>
+          <Text style={homeStyle.heading}>
+            {data.first_name} {data.last_name}
           </Text>
         </View>
-        <View style={homeStyle.section}>
-          <Text style={homeStyle.label}>Email:</Text>
-          <Text style={homeStyle.data}>{route.params?.email}</Text>
+        <View style={homeStyle.detailWrap}>
+          <View style={homeStyle.section}>
+            <Text style={homeStyle.label}>First Name:</Text>
+            <Text style={homeStyle.data}>{data?.first_name}</Text>
+          </View>
+          <View style={homeStyle.section}>
+            <Text style={homeStyle.label}>Last Name:</Text>
+            <Text style={homeStyle.data}>{data?.last_name}</Text>
+          </View>
+          <View style={homeStyle.section}>
+            <Text style={homeStyle.label}>Email:</Text>
+            <Text style={homeStyle.data}>{data?.email}</Text>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 };

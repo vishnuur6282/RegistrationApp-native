@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {loginStyles} from '../login/style';
 import {useDispatch} from 'react-redux';
+
+import {loginStyles} from '../login/style';
 import {onSigningUp} from '../../redux/reducers/signupReducer';
 import showToast from '../../components/Toast';
 
@@ -20,7 +21,6 @@ export interface FormValuesType {
   confirmPassword: string;
 }
 const RegistrationScreen = ({navigation}: any) => {
-  //  const users = useSelector((state: any) => state.users.value);
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<FormValuesType>({
@@ -146,9 +146,11 @@ const RegistrationScreen = ({navigation}: any) => {
             style={loginStyles.input}
             placeholder="Confirm Password"
             placeholderTextColor="grey"
+            secureTextEntry={true}
             onChangeText={text => handleInputChange('confirmPassword', text)}
             value={formValues.confirmPassword}
             autoCapitalize="none"
+            onSubmitEditing={handleSignIn}
           />
           {fieldWarnings.confirmPassword && (
             <Text style={loginStyles.warning}>

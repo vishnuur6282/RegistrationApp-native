@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {loginStyles} from './style';
 import {useDispatch, useSelector} from 'react-redux';
+
+import {loginStyles} from './style';
+
 import showToast from '../../components/Toast';
 import {FormValuesType} from '../registration';
 import {setCurrentUser} from '../../redux/reducers/signupReducer';
@@ -53,6 +55,7 @@ const LoginScreen = ({navigation}: any) => {
             onChangeText={text => setemail(text)}
             value={email}
             autoCapitalize="none"
+            keyboardType="email-address"
           />
 
           <TextInput
@@ -63,6 +66,7 @@ const LoginScreen = ({navigation}: any) => {
             onChangeText={text => setPassword(text)}
             autoCapitalize="none"
             value={password}
+            onSubmitEditing={handleSignIn}
           />
           <TouchableOpacity style={loginStyles.button} onPress={handleSignIn}>
             <Text style={loginStyles.buttonText}>Sign In</Text>
