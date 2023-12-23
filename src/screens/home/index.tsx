@@ -35,7 +35,7 @@ const HomeScreen = ({navigation}: any) => {
   };
 
   const renderItem = ({item}: FormValuesType | any) => (
-    <Pressable onPress={() => onPressUser(item)} key={item.first_name}>
+    <Pressable onPress={() => onPressUser(item)} key={item.email}>
       <View style={homeStyle.section}>
         <View style={homeStyle.leftpart}>
           <TouchableOpacity onPress={() => onPressImage(item)}>
@@ -46,7 +46,7 @@ const HomeScreen = ({navigation}: any) => {
           </TouchableOpacity>
           <View style={homeStyle.datawrap}>
             <Text style={homeStyle.name}>
-              {item?.first_name === currentUser?.first_name
+              {item?.email === currentUser?.email
                 ? item.first_name + ' (You)'
                 : item.first_name}
             </Text>
@@ -73,7 +73,7 @@ const HomeScreen = ({navigation}: any) => {
         <FlatList
           data={users}
           renderItem={renderItem}
-          keyExtractor={item => item.first_name}
+          keyExtractor={item => item.email}
         />
       </View>
       <ModalComponent

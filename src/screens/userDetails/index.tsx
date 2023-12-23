@@ -16,7 +16,7 @@ const UserDetails = ({route, navigation}: any) => {
   useEffect(() => {
     const userDetail: UserData = {
       text:
-        currentUser?.first_name === data.first_name
+        currentUser?.email === data.email
           ? currentUser?.first_name + ' (You)'
           : data?.first_name,
       imagePath: data.imageUrl,
