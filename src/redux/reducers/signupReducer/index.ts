@@ -25,10 +25,13 @@ export const counterSlice = createSlice({
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload;
     },
+    updateUsers: (state, action) => {
+      state.users = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {onSigningUp, setCurrentUser} = counterSlice.actions;
+export const {onSigningUp, setCurrentUser, updateUsers} = counterSlice.actions;
 
 export default counterSlice.reducer;
