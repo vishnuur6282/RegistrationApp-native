@@ -54,6 +54,14 @@ export const loginStyles = StyleSheet.create({
     color: 'black',
     marginTop: 16,
   },
+  disabledButton: {
+    backgroundColor: 'gray',
+    padding: 10,
+    borderRadius: 12,
+    width: '100%',
+    color: 'black',
+    marginTop: 16,
+  },
   buttonText: {
     color: 'white',
     textAlign: 'center',

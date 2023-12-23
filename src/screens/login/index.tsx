@@ -27,7 +27,7 @@ const LoginScreen = ({navigation}: any) => {
         user.email === email && user.password === password,
     );
 
-    if (validUser) {
+    if (validUser && email && password) {
       showToast('Login Success');
       dispatch(setCurrentUser(validUser));
       navigation.navigate('Home', {name: 'Jane'});

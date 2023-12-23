@@ -1,5 +1,5 @@
 // Import necessary components from React and React Native
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {loginStyles} from '../login/style';
 import {onSigningUp} from '../../redux/reducers/signupReducer';
@@ -21,6 +21,7 @@ export interface FormValuesType {
   confirmPassword: string;
 }
 const RegistrationScreen = ({navigation}: any) => {
+  const {users} = useSelector((state: any) => state.users);
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<FormValuesType>({
@@ -33,6 +34,19 @@ const RegistrationScreen = ({navigation}: any) => {
   const [fieldWarnings, setFieldWarnings] = useState<Partial<FormValuesType>>(
     {},
   );
+  const [disableSubmit, setdisableSubmit] = useState(false);
+
+  useEffect(() => {
+    const errorsStatus = Object.values(fieldWarnings).every(
+      value => value === '',
+    );
+    const valuesStatus = Object.values(formValues).every(value => !!value);
+    if (errorsStatus && valuesStatus) {
+      setdisableSubmit(false);
+    } else {
+      setdisableSubmit(true);
+    }
+  }, [fieldWarnings]);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,6 +71,13 @@ const RegistrationScreen = ({navigation}: any) => {
       setFieldWarnings({
         ...fieldWarnings,
         email: 'Email is invalid',
+      });
+    } else if (
+      users.some((user: FormValuesType) => user.email === formValues.email)
+    ) {
+      setFieldWarnings({
+        ...fieldWarnings,
+        email: 'Email already in use',
       });
     } else {
       setFieldWarnings({
@@ -157,7 +178,13 @@ const RegistrationScreen = ({navigation}: any) => {
               {fieldWarnings.confirmPassword}
             </Text>
           )}
-          <TouchableOpacity style={loginStyles.button} onPress={handleSignIn}>
+          <TouchableOpacity
+            disabled={disableSubmit}
+            style={[
+              loginStyles.button,
+              disableSubmit && loginStyles.disabledButton,
+            ]}
+            onPress={handleSignIn}>
             <Text style={loginStyles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
