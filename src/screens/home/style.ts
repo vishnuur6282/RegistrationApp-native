@@ -5,6 +5,7 @@ export const homeStyle = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
+    backgroundColor: 'white',
   },
   heading: {
     fontSize: 24,
@@ -12,6 +13,12 @@ export const homeStyle = StyleSheet.create({
     fontWeight: '600',
     paddingTop: 16,
     textAlign: 'left',
+  },
+  pagelistheading: {
+    color: 'black',
+    fontSize: 16,
+    padding: 24,
+    fontWeight: '600',
   },
   drawerbutton: {
     backgroundColor: 'red',
@@ -41,15 +48,12 @@ export const homeStyle = StyleSheet.create({
   detailWrap: {
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: 'white',
     width: '100%',
   },
 
   section: {
     alignItems: 'center',
     padding: 24,
-    borderBottomColor: 'grey',
-    borderBottomWidth: 1,
     display: 'flex',
     flexDirection: 'row',
   },

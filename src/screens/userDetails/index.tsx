@@ -4,7 +4,6 @@ import {homeStyle} from './style';
 import {useSelector} from 'react-redux';
 
 const UserDetails = ({route}: any) => {
-  console.log(route.params, 'paramsvalue');
   const imagePaths = [
     require('../../assets/Images/portrait.jpg'),
     require('../../assets/Images/portrait2.jpg'),

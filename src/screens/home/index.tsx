@@ -1,5 +1,12 @@
 import React from 'react';
-import {Image, ImageBackground, Pressable, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ImageBackground,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
 import {homeStyle} from './style';
 import {useSelector} from 'react-redux';
 import {FormValuesType} from '../registration';
@@ -23,6 +30,15 @@ const HomeScreen = ({navigation}: any) => {
     imageUrl: imagePaths[index % imagePaths.length],
   }));
 
+  const renderItem = ({item}: FormValuesType | any) => (
+    <Pressable onPress={() => onPressUser(item)} key={item.first_name}>
+      <View style={homeStyle.section}>
+        <Image style={homeStyle.profileImage} source={item?.imageUrl} />
+        <Text style={homeStyle.data}>{item?.first_name}</Text>
+      </View>
+    </Pressable>
+  );
+
   return (
     <View style={homeStyle.container}>
       <View style={homeStyle.imageWrap}>
@@ -33,15 +49,12 @@ const HomeScreen = ({navigation}: any) => {
         </ImageBackground>
       </View>
       <View style={homeStyle.detailWrap}>
-        <Text>Registered Users</Text>
-        {combinedData?.map((res: FormValuesType | any) => (
-          <Pressable onPress={() => onPressUser(res)} key={res.first_name}>
-            <View style={homeStyle.section}>
-              <Image style={homeStyle.profileImage} source={res?.imageUrl} />
-              <Text style={homeStyle.data}>{res?.first_name}</Text>
-            </View>
-          </Pressable>
-        ))}
+        <Text style={homeStyle.pagelistheading}>Registered Users</Text>
+        <FlatList
+          data={combinedData}
+          renderItem={renderItem}
+          keyExtractor={item => item.first_name}
+        />
       </View>
     </View>
   );
